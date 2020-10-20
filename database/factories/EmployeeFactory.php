@@ -2,18 +2,18 @@
 
     namespace Database\Factories;
 
-    use App\Models\Staff;
+    use App\Models\Employee;
     use Carbon\Carbon;
     use Illuminate\Database\Eloquent\Factories\Factory;
 
-    class StaffFactory extends Factory {
+    class EmployeeFactory extends Factory {
 
         /**
          * The name of the factory's corresponding model.
          *
          * @var string
          */
-        protected $model = Staff::class;
+        protected $model = Employee::class;
 
         /**
          * Define the model's default state.

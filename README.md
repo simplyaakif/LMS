@@ -2,7 +2,7 @@
 
         ~~Course~~
         ~~Query~~
-        - User & Staff
+        ~~User & Employee~~
         - Permission
         - Roles
         

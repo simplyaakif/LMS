@@ -2,6 +2,7 @@
 
     namespace Tests\Feature;
 
+    use App\Models\Employee;
     use App\Models\User;
     use Illuminate\Foundation\Testing\DatabaseMigrations;
     use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,12 +17,13 @@
         public function user_can_see_a_user()
         {
             $this->withoutExceptionHandling();
-            $user = User::create([
-                                     'name'     => 'Aakif Raza',
-                                     'email'    => 'simply.aakif@gmail.com',
-                                     'password' => bcrypt('A123456a*')
-                                 ]);
-            $view = $this->get('/staff/user/' . $user->id);
+            $employee = Employee::factory()->create();
+            $employee->user()->create([
+                                        'name'        => 'Aakif Raza',
+                                        'email'       => 'simply.aakif@gmail.com',
+                                        'password'    => bcrypt('A123456a*'),
+                                    ]);
+            $view     = $this->get('/employee/user/' . $employee->user->id);
             $view->assertStatus(200);
             $view->assertSee('Aakif Raza');
             $view->assertSee('simply.aakif@gmail.com');
@@ -33,38 +35,38 @@
         public function user_can_create_a_user()
         {
             $this->withoutExceptionHandling();
+            $employee = Employee::factory()->create();
             $user = [
+                'employee_id'=>$employee->id,
                 'user' => [
                     'name'     => 'Aakif Raza',
                     'email'    => 'simply.aakif@gmail.com',
                     'password' => 'A123456a*'
                 ]
             ];
-            $view = $this->post('/staff/user', $user);
-            $view->assertStatus(201);
+            $view = $this->post('/employee/user', $user);
+            $view->assertStatus(200);
 
-            $user = User::firstOrFail();
-            $this->assertEquals('Aakif Raza', $user->name);
-            $this->assertEquals('simply.aakif@gmail.com', $user->email);
+            $this->assertEquals('Aakif Raza', $employee->user->name);
+            $this->assertEquals('simply.aakif@gmail.com', $employee->user->email);
         }
 
         /** @test */
         public function user_can_edit_a_user()
         {
             $this->withoutExceptionHandling();
-            $user = User::create([
+            $employee = Employee::factory()->create();
+            $employee->user()->create([
                                      'name'     => 'Aakif Raza',
                                      'email'    => 'simply.aakif@gmail.com',
                                      'password' => 'A123456a*'
                                  ]);
-            $user = User::firstOrFail();
-
             $user_update = [
                 'name'  => 'Muhammad Aakif Raza',
                 'email' => 'simply.aakif@email.com',
             ];
-            $view        = $this->put('/staff/user', [
-                'user_id'     => $user->id,
+            $view        = $this->put('/employee/user', [
+                'employee_id'     => $employee->user->id,
                 'user_update' => $user_update
             ]);
             $user        = User::firstOrFail();
@@ -76,15 +78,16 @@
         /** @test */
         public function user_can_delete_a_user()
         {
-            $user = User::create([
+            $this->withoutExceptionHandling();
+            $employee = Employee::factory()->create();
+            $employee->user()->create([
                                      'name'     => 'Aakif Raza',
                                      'email'    => 'simply.aakif@gmail.com',
                                      'password' => 'A123456a*'
                                  ]);
-            $user = User::firstOrFail();
-            $view = $this->delete('/staff/user/', ['user_id' => $user->id]);
+            $view = $this->delete('/employee/user/', ['employee_id' => $employee->id]);
             $view->assertStatus(200);
-            $this->assertEmpty(User::first());
+            $this->assertEmpty($employee->user);
         }
 
     }

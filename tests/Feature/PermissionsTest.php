@@ -2,6 +2,7 @@
 
     namespace Tests\Feature;
 
+    use App\Models\Employee;
     use App\Models\User;
     use Illuminate\Foundation\Testing\DatabaseMigrations;
     use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,12 +23,13 @@
         public function a_user_is_logged_in()
         {
 //          Arrange
-            $user = User::factory()->create(['email' => 'asmat@example.com']);
+            $employee = Employee::factory()->create();
+            $employee->user()->create(['email' => 'asmat@example.com','name'=>'Asmat','password'=>bcrypt('password')]);
 //          Act
-            $user->assignRole('fdo');
-            $user->getRoleNames();
+            $employee->user->assignRole('fdo');
+            $employee->user->getRoleNames();
 //          Assert
-            $this->assertEquals('asmat@example.com', $user->email);
-            $this->assertStringContainsString('fdo', $user->getRoleNames());
+            $this->assertEquals('asmat@example.com', $employee->user->email);
+            $this->assertStringContainsString('fdo', $employee->user->getRoleNames());
         }
     }

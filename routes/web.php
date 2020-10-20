@@ -33,17 +33,17 @@
     Route::get('/student/{id}', 'StudentController@show');
 
 
-//    User & Staff Routes
-    Route::group(['prefix' => 'staff'], function () {
-        Route::get('/{id}', 'StaffController@show');
-        Route::post('/', 'StaffController@store');
-        Route::put('/', 'StaffController@update');
-        Route::delete('/', 'StaffController@delete');
+//    User & Employee Routes
+    Route::group(['prefix' => 'employee'], function () {
+        Route::get('/{id}', 'EmployeeController@show');
+        Route::post('/', 'EmployeeController@store');
+        Route::put('/', 'EmployeeController@update');
+        Route::delete('/', 'EmployeeController@delete');
         Route::group(['prefix' => 'user'], function () {
-            Route::get('/{id}', 'StaffController@show_user');
-            Route::post('/', 'StaffController@store_user');
-            Route::put('/', 'StaffController@update_user');
-            Route::delete('/', 'StaffController@delete_user');
+            Route::get('/{id}', 'EmployeeController@show_user');
+            Route::post('/', 'EmployeeController@store_user');
+            Route::put('/', 'EmployeeController@update_user');
+            Route::delete('/', 'EmployeeController@delete_user');
 
         });
     });
