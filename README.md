@@ -20,3 +20,9 @@
         - Inventory
         - Class Chat Rooms
         
+        
+        
+        Additional Notes
+        -   Work on the Student Career
+        -   Work on the Course Path
+        
